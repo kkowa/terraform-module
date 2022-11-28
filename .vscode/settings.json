@@ -1,0 +1,13 @@
+{
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+  },
+  "go.formatTool": "default",
+  "go.lintOnSave": "file",
+  "yaml.format.enable": true,
+  "json.format.enable": true,
+  "cSpell.words": [],
+}
