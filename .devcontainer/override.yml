@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  workspace:
+    user: root:root
+    healthcheck:
+      disable: true

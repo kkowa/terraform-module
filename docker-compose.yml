@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  workspace:
+    image: localhost:5000/kkowa/terraform-module:local
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/var/workspace
