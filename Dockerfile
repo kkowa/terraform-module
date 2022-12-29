@@ -20,6 +20,7 @@ SHELL ["/bin/bash", "-c"]
 # Install tools
 RUN apt update && apt install --no-install-recommends -y \
     curl \
+    docker.io \
     git \
     gnupg2 \
     make \
