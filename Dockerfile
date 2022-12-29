@@ -3,6 +3,7 @@ ARG GO_VERSION="1.19"
 FROM golang:${GO_VERSION}-bullseye
 
 ARG TERRAFORM_VERSION="1.3.6"
+ARG K3D_VERSION="v5"
 ARG GOLANGCI_LINT_VERSION="v1.50.1"
 
 # Workspace directory
@@ -30,14 +31,23 @@ RUN apt update && apt install --no-install-recommends -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Hashicorp GPG key
-RUN curl -fsSL "https://apt.releases.hashicorp.com/gpg" | gpg --dearmor > /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 
-# Install Terraform
+# Add k8s GPG key
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+
+# Install Terraform & kubectl (stable)
 RUN apt-get update && apt-get install --no-install-recommends -y \
+    kubectl \
     terraform=${TERRAFORM_VERSION} \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
+
+# Install k3d
+RUN curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG="${K3D_VERSION}" bash
 
 # Install pre-commit
 RUN pip3 install --no-cache-dir --upgrade pip && pip install --no-cache-dir pre-commit
