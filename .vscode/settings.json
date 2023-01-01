@@ -12,5 +12,8 @@
   "go.lintOnSave": "file",
   "yaml.format.enable": true,
   "json.format.enable": true,
+  "cSpell.enableFiletypes": [
+    "terraform"
+  ],
   "cSpell.words": [],
 }
