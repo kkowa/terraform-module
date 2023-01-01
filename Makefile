@@ -57,5 +57,7 @@ scan:  ## Run scans
 # Handy Scripts
 # =============================================================================
 clean:  ## Remove temporary files
-	find . -path '*/terraform.tfstate' -or -path '*/terraform.tfplan' -or -path '*/terraform.tfstate.backup' | xargs rm
+	find . -type d -name '.terraform' -exec rm -rf {} \; 2>/dev/null || true
+	find . -type f -name '.terraform.lock.hcl' -delete
+	find . -regex '.*/terraform\.\(tfstate\|tfplan\|tfstate\.backup\)' -delete
 .PHONY: clean
