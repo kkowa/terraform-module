@@ -10,6 +10,7 @@
   },
   "go.formatTool": "default",
   "go.lintOnSave": "file",
+  "go.testTimeout": "30m",
   "yaml.format.enable": true,
   "json.format.enable": true,
   "cSpell.enableFiletypes": [
