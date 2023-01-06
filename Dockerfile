@@ -39,8 +39,13 @@ RUN mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 
-# Install Terraform & kubectl (stable)
+# Add Helm GPG key
+RUN curl -fsSL https://baltocdn.com/helm/signing.asc | gpg --dearmor > /usr/share/keyrings/helm.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+
+# Install core tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
+    helm \
     kubectl \
     terraform=${TERRAFORM_VERSION} \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
