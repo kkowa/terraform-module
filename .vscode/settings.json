@@ -1,6 +1,7 @@
 {
   "files.eol": "\n",
   "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true,
