@@ -1,3 +1,9 @@
+/**
+  * # examples/local-k8s
+  *
+  * Simple example deploying kkowa to local kubernetes cluster.
+  */
+
 terraform {
   backend "local" {}
 }
