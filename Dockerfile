@@ -21,6 +21,7 @@ SHELL ["/bin/bash", "-c"]
 # Install tools
 RUN apt update && apt install --no-install-recommends -y \
     curl \
+    dnsutils \
     docker.io \
     git \
     gnupg2 \
