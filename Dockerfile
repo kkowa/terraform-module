@@ -74,7 +74,7 @@ RUN groupadd --gid "${GID}" worker \
     && chown -R worker:worker "${WORKSPACE}" /home/worker
 
 # Copy script files to executable path
-COPY --chown=worker:worker --chmod=755 ./scripts/* /usr/local/bin/
+COPY --chown=worker:worker --chmod=755 ./scripts/docker-entrypoint.sh /usr/local/bin/
 
 HEALTHCHECK NONE
 
