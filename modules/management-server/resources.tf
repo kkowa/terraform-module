@@ -599,16 +599,16 @@ resource "kubernetes_job" "init" {
                 "/bin/sh",
                 "-c",
                 <<-EOT
-                poetry run python <<EOF
-                import os, sys, psycopg2
-                try:
-                  conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
-                  conn.close()
-                  sys.exit(0)
-                except:
-                  sys.exit(1)
-                EOF
-              EOT
+                  poetry run python <<EOF
+                  import os, sys, psycopg2
+                  try:
+                    conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
+                    conn.close()
+                    sys.exit(0)
+                  except:
+                    sys.exit(1)
+                  EOF
+                EOT
               ]
             }
           }
