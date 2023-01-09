@@ -11,6 +11,10 @@
   "go.testTimeout": "30m",
   "yaml.format.enable": true,
   "json.format.enable": true,
+  "[dockercompose]": {
+    // Force YAML formatter for Docker Compose files
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+  },
   "cSpell.enableFiletypes": [
     "terraform"
   ],
