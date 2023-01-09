@@ -6,9 +6,6 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": true,
   },
-  "[terraform][terraform-vars]": {
-    "editor.tabSize": 2,
-  },
   "go.formatTool": "default",
   "go.lintOnSave": "file",
   "go.testTimeout": "30m",
