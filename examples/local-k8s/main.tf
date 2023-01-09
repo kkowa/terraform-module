@@ -8,18 +8,16 @@ terraform {
   backend "local" {}
 }
 
+# TODO: Take k8s config file to support all local, devcontainer and github actions CI environments.
+
 provider "kubernetes" {
-  host               = var.kubernetes.host
-  insecure           = true
-  client_certificate = base64decode(var.kubernetes.client_certificate)
-  client_key         = base64decode(var.kubernetes.client_key)
+  config_path    = var.kubernetes.config_path
+  config_context = var.kubernetes.config_context
 }
 
 provider "helm" {
   kubernetes {
-    host               = var.kubernetes.host
-    insecure           = true
-    client_certificate = base64decode(var.kubernetes.client_certificate)
-    client_key         = base64decode(var.kubernetes.client_key)
+    config_path    = var.kubernetes.config_path
+    config_context = var.kubernetes.config_context
   }
 }
