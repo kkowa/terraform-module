@@ -1,11 +1,28 @@
 version: "3"
 
+volumes:
+  docker-data: {}
+
 services:
   workspace:
+    depends_on:
+      - docker
     image: localhost:5000/kkowa/terraform-module:local
     build:
       context: .
       dockerfile: ./Dockerfile
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - .:/var/workspace
+    environment:
+      DOCKER_HOST: tcp://docker:2375
+
+  # NOTE: kubectl does not hold CA certificate for cluster; should use kubectl with --inscure-skip-tls-verify flag
+  docker:
+    image: docker:20-dind
+    privileged: true
+    volumes:
+      - docker-data:/var/lib/docker
+    environment:
+      DOCKER_TLS_CERTDIR:
+    expose:
+      - 6443 # For kind cluster control plane

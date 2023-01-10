@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# Set redirect for domain "kkowa-127-0-0-1.nip.io" to "host.docker.internal" for
-# container to access the ingress in a way host environment do.
-echo "$(dig +short host.docker.internal) kkowa-127-0-0-1.nip.io" >> /etc/hosts
-
 # Bash autocompletion
 apt update && apt install -y bash-completion
 

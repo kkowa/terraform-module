@@ -3,6 +3,7 @@ ARG GO_VERSION="1.19"
 FROM golang:${GO_VERSION}-bullseye
 
 ARG TERRAFORM_VERSION="1.3.6"
+ARG KIND_VERSION="v0.17.0"
 ARG TFLINT_VERSION="v0.44.1"
 ARG TERRAFORM_DOCS_VERSION="v0.16.0"
 ARG GOLANGCI_LINT_VERSION="v1.50.1"
@@ -54,9 +55,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-# Install k3d
-RUN curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG="${K3D_VERSION}" bash
-
 # Install pre-commit
 RUN pip3 install --no-cache-dir --upgrade pip && pip install --no-cache-dir pre-commit
 
@@ -73,6 +71,10 @@ RUN curl -fsSL -o /tmp/terraform-docs.tar.gz "https://terraform-docs.io/dl/${TER
 
 # Install golangci-lint
 RUN curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "${GOBIN}" "${GOLANGCI_LINT_VERSION}"
+
+# Install kind
+RUN curl -fsSL -o /usr/local/bin/kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64" \
+    && chmod +x /usr/local/bin/kind
 
 # Change working directory
 WORKDIR "${WORKSPACE}"
