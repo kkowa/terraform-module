@@ -91,6 +91,9 @@ RUN groupadd --gid "${GID}" worker \
 # Copy script files to executable path
 COPY --chown=worker:worker --chmod=755 ./scripts/docker-entrypoint.sh /usr/local/bin/
 
+# Copy source codes for later sharing & debugging
+COPY --chown=worker:worker . .
+
 HEALTHCHECK NONE
 
 ENTRYPOINT ["docker-entrypoint.sh"]
