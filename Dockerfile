@@ -3,7 +3,8 @@ ARG GO_VERSION="1.19"
 FROM golang:${GO_VERSION}-bullseye
 
 ARG TERRAFORM_VERSION="1.3.6"
-ARG K3D_VERSION="v5"
+ARG TFLINT_VERSION="v0.44.1"
+ARG TERRAFORM_DOCS_VERSION="v0.16.0"
 ARG GOLANGCI_LINT_VERSION="v1.50.1"
 
 # Workspace directory
@@ -28,6 +29,7 @@ RUN apt update && apt install --no-install-recommends -y \
     make \
     python3-pip \
     software-properties-common \
+    unzip \
     && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
@@ -57,6 +59,17 @@ RUN curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TA
 
 # Install pre-commit
 RUN pip3 install --no-cache-dir --upgrade pip && pip install --no-cache-dir pre-commit
+
+# Install TFLint
+RUN curl -fsSL "https://raw.githubusercontent.com/terraform-linters/tflint/${TFLINT_VERSION}/install_linux.sh" | bash
+
+# Install terraform-docs
+RUN curl -fsSL -o /tmp/terraform-docs.tar.gz "https://terraform-docs.io/dl/${TERRAFORM_DOCS_VERSION}/terraform-docs-${TERRAFORM_DOCS_VERSION}-Linux-amd64.tar.gz" \
+    && mkdir -p /tmp/terraform-docs \
+    && tar -xzf /tmp/terraform-docs.tar.gz -C /tmp/terraform-docs/ \
+    && mv /tmp/terraform-docs/terraform-docs /usr/local/bin/ \
+    && chmod +x /usr/local/bin/terraform-docs \
+    && rm -rf /tmp/terraform-docs
 
 # Install golangci-lint
 RUN curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "${GOBIN}" "${GOLANGCI_LINT_VERSION}"

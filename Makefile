@@ -42,6 +42,7 @@ lint:  ## Run all linters
 		echo "Validating $${tfdir}"
 		terraform -chdir="$${tfdir}" validate
 	done
+	tflint --recursive
 .PHONY: lint
 
 test:  ## Run tests
